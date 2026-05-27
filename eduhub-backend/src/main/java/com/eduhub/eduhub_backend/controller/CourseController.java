@@ -63,6 +63,17 @@ public class CourseController {
         return new ResponseEntity<>(courseList,HttpStatus.OK);
     }
 
+    @PutMapping("query/{code}")
+    public String queryCourse(@PathVariable String code)throws Exception{
+        if(code.startsWith("*")){
+            throw new IllegalArgumentException("It is having a special character");
+        }
+        else if(code.startsWith("6")){
+            throw new RuntimeException();
+        }
+        return code;
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Course> updateCourse(@PathVariable("id") int courseCode, @RequestBody Course updatedCourse){
         for(Course c:courseList){
@@ -70,8 +81,7 @@ public class CourseController {
                 c.setSubjectName(updatedCourse.getSubjectName());
                 c.setCredits(updatedCourse.getCredits());
                 return new ResponseEntity<>(c,HttpStatus.OK);
-            }
-        }
+            }}
         //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         throw new ResourseNotFoundException("Course","id",String.valueOf(courseCode));
     }
@@ -86,4 +96,5 @@ public class CourseController {
         }
         return "Course Not Found";
     }
+
 }
