@@ -1,6 +1,7 @@
 package com.eduhub.eduhub_backend.controller;
 
 import com.eduhub.eduhub_backend.component.Course;
+import com.eduhub.eduhub_backend.exception.ResourseNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,17 @@ import java.util.List;
 
 @RestController
 public class CourseController {
+
+//    another way to achieve this is by declaring
+//    static List<Course> courseList=new ArrayList<>(); list as static and add elements in static block
+//    static{
+//        courseList.add(new Course(101,"JAVA",4));
+//        courseList.add(new Course(102,"PYTHON",3));
+//        courseList.add(new Course(103,"C",4));
+//        courseList.add(new Course(104,"CPP",2));
+//        courseList.add(new Course(105,"DSA",3));
+//    }
+
     List<Course> courseList=new ArrayList<>();
     public CourseController(){
         courseList.add(new Course(101,"JAVA",4));
@@ -31,7 +43,7 @@ public class CourseController {
                 return new ResponseEntity<>(c,HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        throw new ResourseNotFoundException("Course","id",String.valueOf(courseCode));
     }
 
     @GetMapping("course")
@@ -41,7 +53,8 @@ public class CourseController {
                 return new ResponseEntity<>(c,HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        throw new ResourseNotFoundException("Course","id",String.valueOf(courseCode));
     }
 
     @PostMapping("/add")
@@ -59,7 +72,8 @@ public class CourseController {
                 return new ResponseEntity<>(c,HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        throw new ResourseNotFoundException("Course","id",String.valueOf(courseCode));
     }
 
     @DeleteMapping("delete/{id}")
