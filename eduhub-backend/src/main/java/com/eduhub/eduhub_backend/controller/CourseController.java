@@ -31,11 +31,13 @@ public class CourseController {
         courseList.add(new Course(105,"DSA",3));
     }
 
+    //Used to get all courses
     @GetMapping("get")
     public ResponseEntity<List<Course>> getAllCourses(){
         return new ResponseEntity<>(courseList, HttpStatus.OK);
     }
 
+    //used to get particular course
     @GetMapping("courses/{id}")
     public ResponseEntity<Course> getCourse(@PathVariable("id") int courseCode){
         for(Course c:courseList){
@@ -57,6 +59,7 @@ public class CourseController {
         throw new ResourseNotFoundException("Course","id",String.valueOf(courseCode));
     }
 
+    //used to add a new course
     @PostMapping("/add")
     public ResponseEntity<List<Course>> addCourse(@RequestBody Course course){
         courseList.add(new Course(course.getCourseCode(),course.getSubjectName(),course.getCredits()));
@@ -74,6 +77,7 @@ public class CourseController {
         return code;
     }
 
+    //used to update existing course
     @PutMapping("/update/{id}")
     public ResponseEntity<Course> updateCourse(@PathVariable("id") int courseCode, @RequestBody Course updatedCourse){
         for(Course c:courseList){
@@ -86,6 +90,7 @@ public class CourseController {
         throw new ResourseNotFoundException("Course","id",String.valueOf(courseCode));
     }
 
+    //used to delete existing course
     @DeleteMapping("delete/{id}")
     public String deleteCourse(@PathVariable("id") int courseCode){
         for(int i=0;i<courseList.size();i++){
